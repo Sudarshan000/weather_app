@@ -55,39 +55,61 @@
     <script src="index.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Get references to the input field and search button
-            var input = document.getElementById('locationInput');
-            var button = document.getElementById('searchButton');
+document.addEventListener('DOMContentLoaded', function() {
+    var input = document.getElementById('searchInput');
+    var button = document.getElementById('searchButton');
+    var weatherResult = document.getElementById('weatherResult');
 
-            // Add event listener for the input field
-            input.addEventListener('keypress', function (event) {
-                // Check if the key pressed is Enter (key code 13)
-                if (event.key === 'Enter') {
-                    // Prevent the default action of the Enter key (form submission)
-                    event.preventDefault();
-                    // Trigger the search function
-                    searchWeather();
-                }
+    input.addEventListener('keypress', function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            searchWeather();
+        }
+    });
+
+    button.addEventListener('click', function() {
+        searchWeather();
+    });
+
+    function searchWeather() {
+        var location = input.value;
+        if (location.trim() === "") {
+            // If the input is empty, don't proceed with the search
+            return;
+        }
+        var apiKey = 'YOUR_OPENWEATHERMAP_API_KEY';
+        var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + location + '&appid=' + apiKey;
+
+        // Fetch weather data from the API
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response data
+                displayWeather(data);
+            })
+            .catch(error => {
+                console.log('Error fetching weather data:', error);
             });
+    }
 
-            // Add event listener for the search button
-            button.addEventListener('click', function () {
-                // Trigger the search function
-                searchWeather();
-            });
+    function displayWeather(data) {
+        // Extract relevant data from the API response
+        var cityName = data.name;
+        var country = data.sys.country;
+        var temperature = data.main.temp;
+        var weatherDescription = data.weather[0].description;
 
-            // Function to handle weather search
-            function searchWeather() {
-                // Get the value from the input field
-                var location = input.value;
-                // Perform the weather search using the entered location
-                // You can implement your weather search logic here
-                console.log('Searching for weather in: ' + location);
-                // Clear the input field after search
-                input.value = '';
-            }
-        });
-    </script>
+        // Convert temperature from Kelvin to Celsius (you can convert to Fahrenheit if needed)
+        var celsiusTemp = Math.round(temperature - 273.15);
+
+        // Display the weather information
+        weatherResult.innerHTML = `
+            <h2>Weather in ${cityName}, ${country}</h2>
+            <p>Temperature: ${celsiusTemp}°C</p>
+            <p>Description: ${weatherDescription}</p>
+        `;
+    }
+});
+</script>
 </body>
 </html>
