@@ -54,5 +54,39 @@
     <script src="https://kit.fontawesome.com/7c8801c017.js" crossorigin="anonymous"></script>
     <script src="index.js"></script>
 </body>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get references to the input field and search button
+            var input = document.getElementById('locationInput');
+            var button = document.getElementById('searchButton');
 
+            // Add event listener for the input field
+            input.addEventListener('keypress', function (event) {
+                // Check if the key pressed is Enter (key code 13)
+                if (event.key === 'Enter') {
+                    // Prevent the default action of the Enter key (form submission)
+                    event.preventDefault();
+                    // Trigger the search function
+                    searchWeather();
+                }
+            });
+
+            // Add event listener for the search button
+            button.addEventListener('click', function () {
+                // Trigger the search function
+                searchWeather();
+            });
+
+            // Function to handle weather search
+            function searchWeather() {
+                // Get the value from the input field
+                var location = input.value;
+                // Perform the weather search using the entered location
+                // You can implement your weather search logic here
+                console.log('Searching for weather in: ' + location);
+                // Clear the input field after search
+                input.value = '';
+            }
+        });
+    </script>
 </html>
