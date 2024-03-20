@@ -5,7 +5,10 @@ const weatherDetails = document.querySelector('.weather-details');
 const error404 = document.querySelector('.not-found');
 
 search.addEventListener('click', () => {
+    searchWeather()
+})
 
+function searchWeather() {
     const APIKey = '640b3e4ad5cbaf25e341c05110418c81';
     const city = document.querySelector('.search-box input').value;
 
@@ -74,4 +77,10 @@ search.addEventListener('click', () => {
         });
 
 
+    }
+
+addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        searchWeather()
+    }
 });
