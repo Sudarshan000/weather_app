@@ -10,7 +10,8 @@ search.addEventListener('click', () => {
 
 function searchWeather() {
     const APIKey = '640b3e4ad5cbaf25e341c05110418c81';
-    const city = document.querySelector('.search-box input').value;
+    //const city = document.querySelector('.search-box input').value;
+    const city = document.querySelector('.search-box input').value.trim();
 
     if (city === '')
         return;
